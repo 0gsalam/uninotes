@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Примерно лого: книга с молив -->
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c5cff"/>
+      <stop offset="100%" stop-color="#63e6be"/>
+    </linearGradient>
+  </defs>
+  <rect x="15" y="20" width="70" height="60" rx="8" fill="url(#grad)" opacity="0.15"/>
+  <path d="M25 30 Q25 25 30 25 L50 25 L50 75 L30 75 Q25 75 25 70 Z"
+        fill="none" stroke="url(#grad)" stroke-width="3"/>
+  <path d="M75 30 Q75 25 70 25 L50 25 L50 75 L70 75 Q75 75 75 70 Z"
+        fill="none" stroke="url(#grad)" stroke-width="3"/>
+  <line x1="50" y1="25" x2="50" y2="75" stroke="url(#grad)" stroke-width="3"/>
+</svg>

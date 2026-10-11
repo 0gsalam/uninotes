@@ -1,0 +1,43 @@
+@page
+@model LoginModel
+@{
+    ViewData["Title"] = Localizer["Login"];
+}
+
+<h1 class="auth-title">@Localizer["Login"]</h1>
+<p class="auth-subtitle">@Localizer["WelcomeSubtitle"]</p>
+
+<form id="account" method="post" class="auth-form">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Input.Email">@Localizer["Email"]</label>
+        <input asp-for="Input.Email" class="form-control" autocomplete="username" />
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Input.Password">@Localizer["Password"]</label>
+        <input asp-for="Input.Password" class="form-control" autocomplete="current-password" />
+        <span asp-validation-for="Input.Password" class="text-danger"></span>
+    </div>
+
+    <div class="form-group checkbox-group">
+        <label>
+            <input asp-for="Input.RememberMe" />
+            @Localizer["RememberMe"]
+        </label>
+    </div>
+
+    <button type="submit" class="btn-primary auth-submit">@Localizer["Login"]</button>
+
+    <div class="auth-links">
+        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">
+            @Localizer["Register"]
+        </a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

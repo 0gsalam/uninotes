@@ -1,0 +1,15 @@
+@model UniNotes.Models.Note
+@{
+    ViewData["Title"] = Localizer["Delete"];
+}
+<div class="confirm-card">
+    <h1>@Localizer["AreYouSure"]</h1>
+    <h2>@Model.Title</h2>
+    <p class="warning">@Localizer["DeleteConfirm"]</p>
+
+    <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn-danger">@Localizer["Delete"]</button>
+        <a asp-action="Index" class="btn-secondary">@Localizer["Cancel"]</a>
+    </form>
+</div>

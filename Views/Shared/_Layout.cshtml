@@ -1,0 +1,124 @@
+﻿@using System.Globalization
+@{
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
+}
+<!DOCTYPE html>
+<html lang="@currentCulture">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b0d17" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <title>@ViewData["Title"] — @Localizer["AppName"]</title>
+
+    @* <link rel="icon" type="image/svg+xml" href="~/favicon.svg" /> *@
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-shell">
+
+        <header class="topbar">
+            <a class="brand" asp-controller="Home" asp-action="Index">
+                <img src="android-chrome-512x512.png" alt="Logo" class="brand-logo" />
+                <span class="brand-text">@Localizer["AppName"]</span>
+            </a>
+
+            <div class="topbar-actions">
+                <div class="lang-switch lang-switch-mobile">
+                    <a href="/Language/Set?culture=bg&returnUrl=@returnUrl"
+                       class="@(currentCulture == "bg" ? "active" : "")" title="Български">🇧🇬</a>
+                    <a href="/Language/Set?culture=en&returnUrl=@returnUrl"
+                       class="@(currentCulture == "en" ? "active" : "")" title="English">🇬🇧</a>
+                </div>
+
+                <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+
+            <nav class="nav" id="navMenu">
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a asp-controller="Home" asp-action="Index">
+                        <span class="nav-icon">🏠</span>
+                        <span>@Localizer["Dashboard"]</span>
+                    </a>
+                    <a asp-controller="Notes" asp-action="Index">
+                        <span class="nav-icon">📝</span>
+                        <span>@Localizer["Notes"]</span>
+                    </a>
+                    <a asp-controller="Courses" asp-action="Index">
+                        <span class="nav-icon">📚</span>
+                        <span>@Localizer["Courses"]</span>
+                    </a>
+                    <a asp-controller="Notes" asp-action="Create" class="btn-primary-sm nav-cta">
+                        <span>+</span> @Localizer["CreateNote"]
+                    </a>
+
+                    <div class="nav-divider"></div>
+
+                    <div class="lang-switch lang-switch-desktop">
+                        <a href="/Language/Set?culture=bg&returnUrl=@returnUrl"
+                           class="@(currentCulture == "bg" ? "active" : "")">🇧🇬 BG</a>
+                        <a href="/Language/Set?culture=en&returnUrl=@returnUrl"
+                           class="@(currentCulture == "en" ? "active" : "")">🇬🇧 EN</a>
+                    </div>
+
+                    <form asp-area="Identity" asp-page="/Account/Logout" method="post" class="logout-form">
+                        <button type="submit" class="link-btn">
+                            <span class="nav-icon">🚪</span>
+                            <span>@Localizer["Logout"]</span>
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <a asp-area="Identity" asp-page="/Account/Login">
+                        <span class="nav-icon">🔑</span>
+                        <span>@Localizer["Login"]</span>
+                    </a>
+                    <a asp-area="Identity" asp-page="/Account/Register" class="btn-primary-sm nav-cta">
+                        <span>✨</span> @Localizer["Register"]
+                    </a>
+
+                    <div class="nav-divider"></div>
+
+                    <div class="lang-switch lang-switch-desktop">
+                        <a href="/Language/Set?culture=bg&returnUrl=@returnUrl"
+                           class="@(currentCulture == "bg" ? "active" : "")">🇧🇬 BG</a>
+                        <a href="/Language/Set?culture=en&returnUrl=@returnUrl"
+                           class="@(currentCulture == "en" ? "active" : "")">🇬🇧 EN</a>
+                    </div>
+                }
+            </nav>
+        </header>
+
+        <div class="nav-overlay" id="navOverlay"></div>
+
+        <main class="main-content">
+            @RenderBody()
+        </main>
+
+        <footer class="footer">
+            <span>© @DateTime.Now.Year @Localizer["AppName"]</span>
+        </footer>
+    </div>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

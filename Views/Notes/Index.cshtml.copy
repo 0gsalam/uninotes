@@ -1,0 +1,80 @@
+@model IEnumerable<UniNotes.Models.Note>
+@{
+    ViewData["Title"] = Localizer["MyNotes"];
+    var courses = (IEnumerable<UniNotes.Models.Course>)ViewBag.Courses;
+    var search = (string?)ViewBag.Search;
+    var courseId = (int?)ViewBag.CourseId;
+    var pinned = (bool?)ViewBag.Pinned;
+}
+
+<div class="page-header">
+    <h1 class="page-title">@Localizer["MyNotes"]</h1>
+    <a class="btn-primary" asp-action="Create">+ @Localizer["CreateNote"]</a>
+</div>
+
+<form method="get" class="filter-bar">
+    <input type="text" name="search" value="@search" placeholder="@Localizer["Search"]..." />
+    <select name="courseId">
+        <option value="">@Localizer["AllCourses"]</option>
+        @foreach (var c in courses)
+        {
+            <option value="@c.Id" selected="@(courseId == c.Id)">@c.Name</option>
+        }
+    </select>
+    <label class="checkbox">
+        <input type="checkbox" name="pinned" value="true" checked="@(pinned == true)" />
+        <span>@Localizer["Pinned"]</span>
+    </label>
+    <button type="submit" class="btn-secondary">@Localizer["Search"]</button>
+</form>
+
+@if (!Model.Any())
+{
+    <p class="empty">@Localizer["NoNotes"]</p>
+}
+else
+{
+    <div class="notes-grid">
+        @foreach (var note in Model)
+        {
+            <div class="note-card">
+                <div class="note-card-header">
+                    <a asp-action="Details" asp-route-id="@note.Id" class="note-title">@note.Title</a>
+                    <form asp-action="TogglePin" asp-route-id="@note.Id" method="post" class="inline">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="icon-btn" title="@(note.IsPinned ? Localizer["Unpin"] : Localizer["Pin"])">
+                            @(note.IsPinned ? "📌" : "📍")
+                        </button>
+                    </form>
+                </div>
+
+                @if (note.Course != null)
+                {
+                    <span class="chip" style="border-color:@note.Course.Color; color:@note.Course.Color;">
+                        @note.Course.Name
+                    </span>
+                }
+
+                <p class="note-excerpt">@note.Content</p>
+
+                @if (note.Tags.Any())
+                {
+                    <div class="tag-row">
+                        @foreach (var t in note.Tags)
+                        {
+                            <span class="tag">#@t.Name</span>
+                        }
+                    </div>
+                }
+
+                <div class="note-footer">
+                    <span class="note-date">@note.UpdatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</span>
+                    <div class="note-actions">
+                        <a asp-action="Edit" asp-route-id="@note.Id">@Localizer["Edit"]</a>
+                        <a asp-action="Delete" asp-route-id="@note.Id" class="danger">@Localizer["Delete"]</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

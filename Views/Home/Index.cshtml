@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = Localizer["Dashboard"];
+}
+
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <section class="dashboard">
+        <h1 class="page-title">👋 @Localizer["Welcome"]</h1>
+        <p class="page-subtitle">@Localizer["WelcomeSubtitle"]</p>
+
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div class="stat-value">@ViewBag.TotalNotes</div>
+                <div class="stat-label">@Localizer["TotalNotes"]</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">@ViewBag.TotalCourses</div>
+                <div class="stat-label">@Localizer["TotalCourses"]</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">@ViewBag.PinnedNotes</div>
+                <div class="stat-label">@Localizer["PinnedNotes"]</div>
+            </div>
+        </div>
+
+        <h2 class="section-title">@Localizer["RecentNotes"]</h2>
+        <div class="notes-grid">
+            @foreach (var n in (IEnumerable<UniNotes.Models.Note>)ViewBag.RecentNotes)
+            {
+                <a class="note-card" asp-controller="Notes" asp-action="Details" asp-route-id="@n.Id">
+                    <div class="note-card-header">
+                        <h3>@n.Title</h3>
+                        @if (n.IsPinned) { <span title="@Localizer["Pinned"]">📌</span> }
+                    </div>
+                    @if (n.Course != null)
+                    {
+                        <span class="chip" style="border-color:@n.Course.Color; color:@n.Course.Color;">
+                            @n.Course.Name
+                        </span>
+                    }
+                    <p class="note-excerpt">@n.Content</p>
+                    <span class="note-date">@n.UpdatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</span>
+                </a>
+            }
+            @if (!((IEnumerable<UniNotes.Models.Note>)ViewBag.RecentNotes).Any())
+            {
+                <p class="empty">@Localizer["NoNotes"]</p>
+            }
+        </div>
+    </section>
+}
+else
+{
+    <section class="hero">
+        <h1>@Localizer["Welcome"]</h1>
+        <p>@Localizer["WelcomeSubtitle"]</p>
+        <a class="btn-primary" asp-area="Identity" asp-page="/Account/Register">
+            @Localizer["GetStarted"]
+        </a>
+    </section>
+}

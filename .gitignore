@@ -1,0 +1,41 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+uninotes.db
+
+# User-specific files
+*.rsuser
+*.user
+
+# NuGet
+*.nupkg
+*.snupkg
+
+# Environment
+appsettings.Development.json
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# Custom
+wwwroot/lib/

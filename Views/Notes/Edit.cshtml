@@ -1,0 +1,6 @@
+@model UniNotes.ViewModels.NoteFormViewModel
+@{
+    ViewData["Title"] = Localizer["EditNote"];
+}
+<h1 class="page-title">@Localizer["EditNote"]</h1>
+<partial name="_NoteForm" model="Model" />

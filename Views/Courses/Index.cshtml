@@ -1,0 +1,35 @@
+@model IEnumerable<UniNotes.Models.Course>
+@{
+    ViewData["Title"] = Localizer["MyCourses"];
+}
+
+<div class="page-header">
+    <h1 class="page-title">@Localizer["MyCourses"]</h1>
+    <a class="btn-primary" asp-action="Create">+ @Localizer["NewCourse"]</a>
+</div>
+
+@if (!Model.Any())
+{
+    <p class="empty">@Localizer["NoCourses"]</p>
+}
+else
+{
+    <div class="course-grid">
+        @foreach (var c in Model)
+        {
+            <div class="course-card" style="border-left: 4px solid @c.Color;">
+                <div>
+                    <h3>@c.Name</h3>
+                    @if (!string.IsNullOrEmpty(c.Code)) { <small>@c.Code</small> }
+                </div>
+                <div class="course-meta">
+                    <span>@c.Notes.Count @Localizer["Notes"].ToString().ToLower()</span>
+                    <div class="note-actions">
+                        <a asp-action="Edit" asp-route-id="@c.Id">@Localizer["Edit"]</a>
+                        <a asp-action="Delete" asp-route-id="@c.Id" class="danger">@Localizer["Delete"]</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

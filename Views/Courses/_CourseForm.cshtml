@@ -1,0 +1,33 @@
+@model UniNotes.Models.Course
+
+<form asp-action="@(Model.Id == 0 ? "Create" : "Edit")" asp-route-id="@Model.Id" method="post" class="form-card">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Name">@Localizer["CourseName"]</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Code">@Localizer["CourseCode"]</label>
+        <input asp-for="Code" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Color">@Localizer["Color"]</label>
+        <input asp-for="Color" type="color" class="form-control color-input" />
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn-primary">@Localizer["Save"]</button>
+        <a asp-action="Index" class="btn-secondary">@Localizer["Cancel"]</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

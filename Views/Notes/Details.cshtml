@@ -1,0 +1,36 @@
+@model UniNotes.Models.Note
+@{
+    ViewData["Title"] = Model.Title;
+}
+<article class="detail-card">
+    <div class="detail-header">
+        <h1>@Model.Title @(Model.IsPinned ? "📌" : "")</h1>
+        <div class="detail-actions">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-secondary">@Localizer["Edit"]</a>
+            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn-danger">@Localizer["Delete"]</a>
+        </div>
+    </div>
+
+    @if (Model.Course != null)
+    {
+        <span class="chip" style="border-color:@Model.Course.Color; color:@Model.Course.Color;">
+            @Model.Course.Name
+        </span>
+    }
+
+    <div class="detail-content">@Model.Content</div>
+
+    @if (Model.Tags.Any())
+    {
+        <div class="tag-row">
+            @foreach (var t in Model.Tags) { <span class="tag">#@t.Name</span> }
+        </div>
+    }
+
+    <div class="detail-meta">
+        <span>@Localizer["Created"]: @Model.CreatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</span>
+        <span>@Localizer["Updated"]: @Model.UpdatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</span>
+    </div>
+
+    <a asp-action="Index" class="back-link">← @Localizer["BackToList"]</a>
+</article>
